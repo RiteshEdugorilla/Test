@@ -70,22 +70,47 @@ class UserView(tornado.web.RequestHandler):
                 print("asyncpg.exceptions.ConnectionDoesNotExistError")
 
     
-# class UserEdit(tornado.web.RequestHandler):
-#     async def post(self):
-#         await connect()
-#         async with _pool.acquire() as connection:
-#             try:
-#                 data1 = await connection.fetch('SELECT * FROM users')
-#                 # print(data1)
-#                 self.render("view.html", title="View User", data= data1)
-#             except asyncpg.exceptions.ConnectionDoesNotExistError:
-#                 print("asyncpg.exceptions.ConnectionDoesNotExistError")
+class UserEdit(tornado.web.RequestHandler):
+    
+    async def get(self):
+        await connect()
+        async with _pool.acquire() as connection:
+            try:
+                # data1 = await connection.fetch('SELECT * FROM users')
+                # print(data1)
+                self.render("edit_file.html", title="Edit User")
+            except asyncpg.exceptions.ConnectionDoesNotExistError:
+                print("asyncpg.exceptions.ConnectionDoesNotExistError")
+
+
+class DeleteUser(tornado.web.RequestHandler):
+    async def get(self, id):
+        print(id)
+        
+        await connect()
+        async with _pool.acquire() as connection:
+            try:
+                query = f"""DELETE FROM users WHERE id = ($1);"""
+                values = [
+                    (int(id),)
+                    ]
+                data1 = await connection.executemany(query, values)
+                self.redirect("/view")
+            except asyncpg.exceptions.ConnectionDoesNotExistError:
+                print("asyncpg.exceptions.ConnectionDoesNotExistError")
+
+    
 
 
 if __name__ == "__main__":
     # main()
     tornado.options.parse_command_line()
-    app = tornado.web.Application([(r"/", SignUp), (r"/view", UserView)])
+    app = tornado.web.Application([
+        (r"/", SignUp), 
+        (r"/view", UserView), 
+        (r"/delete/([^/]+)?", DeleteUser),
+        (r"/edit", UserEdit)
+        ])
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(PORT)
     tornado.ioloop.IOLoop.instance().start()

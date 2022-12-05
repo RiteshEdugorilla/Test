@@ -28,7 +28,7 @@
                             <a class="nav-link" href="/view">User View</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Edit User</a>
+                            <a class="nav-link" href="/edit">Edit User</a>
                         </li>
 
                     </ul>
@@ -57,6 +57,8 @@
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Address</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +71,8 @@
                     <td>{{item['email']}}</td>
                     <td>{{item['phone']}}</td>
                     <td>{{item['address']}}</td>
+                    <td><a href="edit/{{item['id']}}" class="btn btn-primary">Edit</button></td>
+                    <td><a href="delete/{{item['id']}}" class="btn btn-danger">Delete</button></td>
                     
                 </tr>
                 {% end %}
