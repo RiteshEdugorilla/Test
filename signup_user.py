@@ -69,19 +69,6 @@ class UserView(tornado.web.RequestHandler):
             except asyncpg.exceptions.ConnectionDoesNotExistError:
                 print("asyncpg.exceptions.ConnectionDoesNotExistError")
 
-    
-class UserEdit(tornado.web.RequestHandler):
-    
-    async def get(self):
-        await connect()
-        async with _pool.acquire() as connection:
-            try:
-                # data1 = await connection.fetch('SELECT * FROM users')
-                # print(data1)
-                self.render("edit_file.html", title="Edit User")
-            except asyncpg.exceptions.ConnectionDoesNotExistError:
-                print("asyncpg.exceptions.ConnectionDoesNotExistError")
-
 
 class DeleteUser(tornado.web.RequestHandler):
     async def get(self, id):
@@ -98,6 +85,24 @@ class DeleteUser(tornado.web.RequestHandler):
                 self.redirect("/view")
             except asyncpg.exceptions.ConnectionDoesNotExistError:
                 print("asyncpg.exceptions.ConnectionDoesNotExistError")
+    
+
+
+class EditUser(tornado.web.RequestHandler):
+    async def get(self, id):
+        print(id)
+        self.redirect("/view")
+        # await connect()
+        # async with _pool.acquire() as connection:
+        #     try:
+        #         # query = f"""DELETE FROM users WHERE id = ($1);"""
+        #         # values = [
+        #         #     (int(id),)
+        #         #     ]
+        #         # data1 = await connection.executemany(query, values)
+        #         self.redirect("/view")
+        #     except asyncpg.exceptions.ConnectionDoesNotExistError:
+        #         print("asyncpg.exceptions.ConnectionDoesNotExistError")
 
     
 
@@ -109,7 +114,7 @@ if __name__ == "__main__":
         (r"/", SignUp), 
         (r"/view", UserView), 
         (r"/delete/([^/]+)?", DeleteUser),
-        (r"/edit", UserEdit)
+        (r"/edit/([^/]+)?", EditUser)
         ])
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(PORT)
