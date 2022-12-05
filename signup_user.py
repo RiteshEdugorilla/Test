@@ -111,8 +111,8 @@ if __name__ == "__main__":
     # main()
     tornado.options.parse_command_line()
     app = tornado.web.Application([
-        (r"/", SignUp), 
-        (r"/view", UserView), 
+        (r"/", UserView), 
+        (r"/signup", SignUp), 
         (r"/delete/([^/]+)?", DeleteUser),
         (r"/edit/([^/]+)?", EditUser)
         ])
