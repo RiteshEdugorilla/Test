@@ -82,7 +82,7 @@ class DeleteUser(tornado.web.RequestHandler):
                     (int(id),)
                     ]
                 data1 = await connection.executemany(query, values)
-                self.redirect("/view")
+                self.redirect("/")
             except asyncpg.exceptions.ConnectionDoesNotExistError:
                 print("asyncpg.exceptions.ConnectionDoesNotExistError")
     
@@ -91,7 +91,7 @@ class DeleteUser(tornado.web.RequestHandler):
 class EditUser(tornado.web.RequestHandler):
     async def get(self, id):
         print(id)
-        self.redirect("/view")
+        self.redirect("/")
         # await connect()
         # async with _pool.acquire() as connection:
         #     try:
