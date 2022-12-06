@@ -90,19 +90,39 @@ class DeleteUser(tornado.web.RequestHandler):
 
 class EditUser(tornado.web.RequestHandler):
     async def get(self, id):
+        await connect()
+        async with _pool.acquire() as connection:
+            try:
+                data1 = await connection.fetch(f'SELECT * FROM users where id = {id}')
+                print(data1)
+                self.render("edit_file.html", title="View User", data= data1)
+            except asyncpg.exceptions.ConnectionDoesNotExistError:
+                print("asyncpg.exceptions.ConnectionDoesNotExistError")
+    
+    async def post(self,id):
         print(id)
-        self.redirect("/")
-        # await connect()
-        # async with _pool.acquire() as connection:
-        #     try:
-        #         # query = f"""DELETE FROM users WHERE id = ($1);"""
-        #         # values = [
-        #         #     (int(id),)
-        #         #     ]
-        #         # data1 = await connection.executemany(query, values)
-        #         self.redirect("/view")
-        #     except asyncpg.exceptions.ConnectionDoesNotExistError:
-        #         print("asyncpg.exceptions.ConnectionDoesNotExistError")
+        user_id = int(self.get_argument('user_id'))
+        fname = self.get_argument('fname')
+        lname = self.get_argument('lname')
+        email = self.get_argument('email')
+        phone = self.get_argument('phone')
+        address = self.get_argument('address')
+        print(user_id, fname, lname, email, phone, address)
+        await connect()
+        async with _pool.acquire() as connection:
+            try:
+                query = """UPDATE users
+                            SET fname = $2, lname = $3, email= $4, phone=$5, address=$6
+                            WHERE id = $1;"""
+                values = [
+                     (user_id, fname, lname, email, phone, address)
+                    ]
+                print(values)
+                result = await connection.executemany(query, values)
+                print(".")
+                self.redirect("/")
+            except asyncpg.exceptions.ConnectionDoesNotExistError:
+                print("asyncpg.exceptions.ConnectionDoesNotExistError")        
 
     
 

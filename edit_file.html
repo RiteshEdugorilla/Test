@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark text-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="/">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -26,9 +26,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/">User View</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/edit">Edit User</a>
                         </li>
 
                     </ul>
@@ -53,36 +50,38 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" name="fname">
+                        <input type="hidden" class="form-control" value="{{data[0]['id']}}" name="user_id">
+                        <input type="text" class="form-control" value="{{data[0]['fname']}}" name="fname">
 
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="lname">
+                        <input type="text" class="form-control" value="{{data[0]['lname']}}" name="lname">
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" name="email">
+                        <input type="email" readonly class="form-control" value="{{data[0]['email']}}" name="email">
 
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" name="phone">
+                        <input type="text" class="form-control" value="{{data[0]['phone']}}" name="phone">
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" name="address">
+                        <input type="text" class="form-control" value="{{data[0]['address']}}" name="address">
 
                     </div>
                 </div>
+                
                 
 
             </div>
